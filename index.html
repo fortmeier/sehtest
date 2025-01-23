@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rotating E</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="eCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('eCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function drawRotatedText(text, x, y, size, angle) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate((angle * Math.PI) / 180);
+      ctx.font = `${size}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 0, 0);
+      ctx.restore();
+    }
+
+    function getRandomAngle() {
+      return Math.floor(Math.random() * 4) * 90; // Zufälliger Winkel: 0°, 90°, 180°, 270°
+    }
+
+    canvas.addEventListener('click', () => {
+      const angle = getRandomAngle();
+      const size = Math.min(canvas.width, canvas.height) * 0.8; // Größe an Bildschirm anpassen
+      drawRotatedText('E', canvas.width / 2, canvas.height / 2, size, angle);
+    });
+
+    // Initialisierung
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      const size = Math.min(canvas.width, canvas.height) * 0.8;
+      drawRotatedText('E', canvas.width / 2, canvas.height / 2, size, 0);
+    });
+
+    resizeCanvas();
+    const initialSize = Math.min(canvas.width, canvas.height) * 0.8;
+    drawRotatedText('E', canvas.width / 2, canvas.height / 2, initialSize, 0);
+  </script>
+</body>
+</html>
